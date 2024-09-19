@@ -17,7 +17,7 @@ stages:
   - job: j_validate_deploy_bundles
     displayName: 'validate_deploy_bundles'
     pool:
-      name: 'Default'
+      vmImage: 'ubuntu-latest'
     steps:
     - task: CmdLine@2
       inputs:
