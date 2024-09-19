@@ -16,6 +16,9 @@ variables:
     - group: vgprdadb360
 
 
+pool:
+  name: 'Default'
+
 stages:
 - stage: s_assignmetastore
   displayName: 'assign workspace to metastore'

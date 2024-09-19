@@ -15,6 +15,10 @@ variables:
   - ${{ else }}: 
     - group: vgprdadb360
 
+pool:
+  name: 'Default'
+
+
 stages:
 - stage: s_createcatalogandschema
   displayName: 'create catalog and schema'
