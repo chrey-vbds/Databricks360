@@ -19,7 +19,11 @@ stages:
     pool:
       name: 'Default'
     steps:
-
+    - task: CmdLine@2
+      inputs:
+        script: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+      displayName: 'Install Databricks CLI v 2'
 
     - task: AzureCLI@2
       displayName: 'validate bundle'
