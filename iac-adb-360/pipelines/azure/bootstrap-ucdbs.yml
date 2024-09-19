@@ -26,7 +26,7 @@ stages:
   - job: j_createcatalogandschema
     displayName: 'job create catalog and schema'
     pool:
-      vmImage: 'ubuntu-latest'
+      name: 'Default'
     steps:
 
 
