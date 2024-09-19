@@ -34,7 +34,7 @@ stages:
         steps:
           - script: |
               echo "Checking bicep syntax..."
-              bicep build ./iac-adb-360/main.bicep
+              az bicep build ./iac-adb-360/main.bicep
             displayName: checking bicep syntax ...
 
   - stage: validatebicep
