@@ -24,3 +24,5 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Print config file used
+        run: echo "Using configuration file $CONFIG_FILE"
