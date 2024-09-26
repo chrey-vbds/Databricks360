@@ -27,10 +27,24 @@ jobs:
       - name: Print config file used
         run: echo "Using configuration file $CONFIG_FILE"
 
+      - name: Install yq
+        run: sudo apt-get install -y yq
+
+      - name: Read config file and set variables
+        id: read_config
+        run: |
+          export $(yq e '.resourcegroup' $CONFIG_FILE)
+          export $(yq e '.env' $CONFIG_FILE)
+        env:
+          CONFIG_FILE: ${{ env.CONFIG_FILE }}
+
+
       - name: Log in to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Execute Azure CLI command
-        run: az group list --output table
+        run: |
+          echo "Resource group: ${{ steps.read_config.outputs.resourcegroup }}"
+          echo "Environment: ${{ steps.read_config.outputs.env }}"
