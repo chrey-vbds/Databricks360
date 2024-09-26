@@ -28,7 +28,10 @@ jobs:
         run: echo "Using configuration file $CONFIG_FILE"
 
       - name: Install yq
-        run: sudo apt-get install -y yq
+        run: |
+          sudo add-apt-repository ppa:rmescandon/yq -y
+          sudo apt update
+          sudo apt-get install -y yq
 
       - name: Read config file and set variables
         id: read_config
