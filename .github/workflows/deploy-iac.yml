@@ -12,11 +12,11 @@ on:
       - dev
       - main
 
-runs-on: ubuntu-latest
 
 jobs:
   deploy:
-
+    name: check bicep
+    runs-on: ubuntu-latest
     env:
       CONFIG_FILE: ${{ github.ref == 'refs/heads/main' && './configprd.yml' || './configdev.yml' }}
 
