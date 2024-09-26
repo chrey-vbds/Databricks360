@@ -1,6 +1,8 @@
 name: Deploy-IAC
 
 on:
+  workflow_dispatch:
+    
   push:
     branches:
       - dev
