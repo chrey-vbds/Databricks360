@@ -33,4 +33,4 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Execute Azure CLI command
-        run: az version
+        run: az group list --output table
