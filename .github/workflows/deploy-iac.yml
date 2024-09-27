@@ -20,7 +20,7 @@ jobs:
     name: check bicep
     runs-on: ubuntu-latest
     env:
-      CONFIG_FILE: ${{ github.ref == 'refs/heads/main' && '${{ github.workspace }}/configprd.yml' || '${{ github.workspace }}/configdev.yml' }}
+      CONFIG_FILE: ${{ github.ref == 'refs/heads/main' && 'configprd.yml' || 'configdev.yml' }}
 
     steps:
       - name: Checkout code
@@ -43,6 +43,8 @@ jobs:
       - name: Read config file and set variables
         id: read_config
         run: |
+          completeFile="$GITHUB_WORKSPACE/$CONFIG_FILE"
+          echo "Reading configuration file $completeFile"
           export $(yq e '.resourcegroup' $CONFIG_FILE)
           export $(yq e '.env' $CONFIG_FILE)
         env:
