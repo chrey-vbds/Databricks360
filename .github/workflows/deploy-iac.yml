@@ -3,16 +3,16 @@ name: Deploy-IAC
 on:
   workflow_dispatch:
 
-  push:
-    branches:
-      - dev
-      - main
-    paths-ignore:
-      - '*'
-  pull_request:
-    branches:
-      - dev
-      - main
+  # push:
+  #   branches:
+  #     - dev
+  #     - main
+  #   paths-ignore:
+  #     - '*'
+  # pull_request:
+  #   branches:
+  #     - dev
+  #     - main
 
 
 jobs:
@@ -20,37 +20,11 @@ jobs:
     name: check bicep
     runs-on: ubuntu-latest
     env:
-      CONFIG_FILE: ${{ github.ref == 'refs/heads/main' && '.github/workflows/configprd.yml' || '.github/workflows/configdev.yml' }}
+      envname: ${{ github.ref == 'refs/heads/main' && 'prd' || 'dev' }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: get cur dir
-        run: |
-          echo "Current directory is $PWD"
-          ls -la
-
-      - name: Print config file used
-        run: echo "Using configuration file $CONFIG_FILE"
-
-      - name: Install yq
-        run: |
-          sudo add-apt-repository ppa:rmescandon/yq -y
-          sudo apt update
-          sudo apt-get install -y yq
-
-      - name: Read config file and set variables
-        id: read_config
-        run: |
-          completeFile="$GITHUB_WORKSPACE/$CONFIG_FILE"
-          echo "Reading configuration file $completeFile"
-          resourcegroup=$(yq e '.resourcegroup' $completeFile)
-          env=$(yq e '.env' $completeFile)
-          echo "::set-output name=resourcegroup::$resourcegroup"
-          echo "::set-output name=env::$env"
-        env:
-          CONFIG_FILE: ${{ env.CONFIG_FILE }}
 
       - name: Log in to Azure
         uses: azure/login@v2
@@ -59,5 +33,4 @@ jobs:
 
       - name: echo out variables from config file
         run: |
-          echo "Resource group: ${{ steps.read_config.outputs.resourcegroup }}"
-          echo "Environment: ${{ steps.read_config.outputs.env }}"
+          echo "Environment is: ${{ env.envname }}"

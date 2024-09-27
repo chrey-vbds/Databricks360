@@ -1,7 +1,0 @@
-variables:
-  baseName: adb3600918
-  env: prd
-  resourcegroup: rg-wus2-$(baseName)-$(env)  
-  location: westus2
-
-  
