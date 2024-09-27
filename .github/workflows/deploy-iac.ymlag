@@ -43,13 +43,12 @@ jobs:
         env:
           CONFIG_FILE: ${{ env.CONFIG_FILE }}
 
-
       - name: Log in to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-          
+
       - name: echo out variables from config file
         run: |
           echo "Resource group: ${{ steps.read_config.outputs.resourcegroup }}"
