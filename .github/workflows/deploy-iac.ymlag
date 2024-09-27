@@ -49,6 +49,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+          
       - name: echo out variables from config file
         run: |
           echo "Resource group: ${{ steps.read_config.outputs.resourcegroup }}"
