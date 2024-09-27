@@ -19,11 +19,11 @@ jobs:
   deploy:
     name: check bicep
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/main' && 'prd' || 'dev' }}
+    environment: ${{ github.ref == 'refs/heads/main' && 'dev' || 'prd' }}
       
     env:
       envname: ${{ github.ref == 'refs/heads/main' && 'prd' || 'dev' }}
-      resourcegroup: ${{ vars.RESOURCEGROUP }}
+
 
     steps:
       - name: Checkout code
