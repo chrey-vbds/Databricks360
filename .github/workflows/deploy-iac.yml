@@ -26,6 +26,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: get cur dir
+        run: |
+          echo "Current directory is $PWD"
+          ls -la
+          
       - name: Print config file used
         run: echo "Using configuration file $CONFIG_FILE"
 
