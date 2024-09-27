@@ -20,7 +20,7 @@ jobs:
     name: check bicep
     runs-on: ubuntu-latest
     env:
-      CONFIG_FILE: ${{ github.ref == 'refs/heads/main' && './configprd.yml' || './configdev.yml' }}
+      CONFIG_FILE: ${{ github.ref == 'refs/heads/main' && '${{ github.workspace }}/configprd.yml' || '${{ github.workspace }}/configdev.yml' }}
 
     steps:
       - name: Checkout code
@@ -30,7 +30,7 @@ jobs:
         run: |
           echo "Current directory is $PWD"
           ls -la
-          
+
       - name: Print config file used
         run: echo "Using configuration file $CONFIG_FILE"
 
