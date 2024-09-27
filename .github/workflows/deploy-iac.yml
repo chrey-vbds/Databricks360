@@ -22,7 +22,7 @@ jobs:
     environment: ${{ github.ref == 'refs/heads/main' && 'dev' || 'prd' }}
       
     env:
-      envname: ${{ github.ref == 'refs/heads/main' && 'prd' || 'dev' }}
+      envname: ${{ github.ref == 'refs/heads/main' && 'dev' || 'prd' }}
 
 
     steps:
