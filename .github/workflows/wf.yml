@@ -7,7 +7,6 @@ permissions:
     contents: read
 
 jobs:
-
   do-the-login:
     runs-on: ubuntu-latest
     steps:
