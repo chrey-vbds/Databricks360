@@ -19,6 +19,8 @@ jobs:
   deploy:
     name: check bicep
     runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/main' && 'prd' || 'dev' }}
+      
     env:
       envname: ${{ github.ref == 'refs/heads/main' && 'prd' || 'dev' }}
 
@@ -34,3 +36,4 @@ jobs:
       - name: echo out variables from config file
         run: |
           echo "Environment is: ${{ env.envname }}"
+          echo "Resource Group is: ${{ vars.RESOURCEGROUP }}"
