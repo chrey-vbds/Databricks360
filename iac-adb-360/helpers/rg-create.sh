@@ -4,8 +4,8 @@ solutionname='adb360'
 location='westus2'
 locationshortname='wus2'
 subscriptionid='2865292f-c1ed-4867-a66d-337eae300421'
-serviceprincipalname='devops-gh'
-adbinteractprincipalname='adb360-gh'
+serviceprincipalname='devops-sc'
+adbinteractprincipalname='adb360-sp'
 
 month=$(date -d "$D" '+%m')
 day=$(date -d "$D" '+%d')
