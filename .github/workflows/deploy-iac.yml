@@ -37,4 +37,4 @@ jobs:
       - name: echo out variables from config file
         run: |
           echo "Environment is: ${{ env.envname }}"
-          echo "Resource Group is: ${{ env.RESOURCEGROUPNAME }}"
+          echo "Resource Group is: ${{ vars.RESOURCEGROUPNAME }}"
