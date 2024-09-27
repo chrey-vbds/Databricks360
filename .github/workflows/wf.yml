@@ -1,6 +1,6 @@
-on: [push]
-
 name: Run Azure Login With a Service Principal Secret
+
+on: [push]
 
 permissions:
     id-token: write
