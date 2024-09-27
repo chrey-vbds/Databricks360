@@ -3,12 +3,12 @@ name: Deploy-IAC
 on:
   workflow_dispatch:
 
-  # push:
-  #   branches:
-  #     - dev
-  #     - main
-  #   paths-ignore:
-  #     - '*'
+  push:
+    branches:
+      - dev
+      - main
+    paths-ignore:
+      - '*'
   # pull_request:
   #   branches:
   #     - dev
