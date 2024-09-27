@@ -45,8 +45,8 @@ jobs:
         run: |
           completeFile="$GITHUB_WORKSPACE/$CONFIG_FILE"
           echo "Reading configuration file $completeFile"
-          export $(yq e '.resourcegroup' $CONFIG_FILE)
-          export $(yq e '.env' $CONFIG_FILE)
+          export $(yq e '.resourcegroup' $completeFile)
+          export $(yq e '.env' $completeFile)
         env:
           CONFIG_FILE: ${{ env.CONFIG_FILE }}
 
