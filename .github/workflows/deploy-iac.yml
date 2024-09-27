@@ -20,7 +20,7 @@ jobs:
     name: check bicep
     runs-on: ubuntu-latest
     env:
-      CONFIG_FILE: ${{ github.ref == 'refs/heads/main' && 'configprd.yml' || 'configdev.yml' }}
+      CONFIG_FILE: ${{ github.ref == 'refs/heads/main' && '.github/workflows/configprd.yml' || '.github/workflows/configdev.yml' }}
 
     steps:
       - name: Checkout code
