@@ -1,6 +1,11 @@
 name: Run Azure Login With a Service Principal Secret
 
-on: [push]
+on:
+    workflow_dispatch:
+
+    push:
+        branches:
+            - dev
 
 permissions:
     id-token: write
