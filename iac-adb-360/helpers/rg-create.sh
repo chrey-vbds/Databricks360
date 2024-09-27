@@ -7,7 +7,6 @@ subscriptionid='2865292f-c1ed-4867-a66d-337eae300421'
 serviceprincipalname='devops-gh'
 adbinteractprincipalname='adb360-gh'
 
-
 month=$(date -d "$D" '+%m')
 day=$(date -d "$D" '+%d')
 
