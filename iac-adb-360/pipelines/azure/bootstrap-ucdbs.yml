@@ -28,7 +28,10 @@ stages:
     pool:
       name: 'Default'
     steps:
-
+    
+    - script: |
+        curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+      displayName: Install databricks cli
 
     - task: AzureCLI@2
       displayName: 'Call script to create catalog and schema with its own storage loc'
