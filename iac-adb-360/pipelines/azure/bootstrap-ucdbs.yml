@@ -16,7 +16,7 @@ variables:
     - group: vgprdadb360
 
 pool:
-  name: 'Default'
+  vmImage: 'ubuntu-latest'
 
 
 stages:
