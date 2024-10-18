@@ -26,9 +26,9 @@ stages:
   - job: j_createcatalogandschema
     displayName: 'job create catalog and schema'
     pool:
-      name: 'Default'
+      vmImage: 'ubuntu-latest'
     steps:
-    
+
     - script: |
         curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
       displayName: Install databricks cli
