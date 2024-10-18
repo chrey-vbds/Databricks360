@@ -45,6 +45,6 @@ fi
 
 # connect to repo
 echo "connecting repo: $repourl"
-databricks repos create $repourl 'gitHub'
+databricks "repos create $repourl gitHub"
 
 echo 'finished'
