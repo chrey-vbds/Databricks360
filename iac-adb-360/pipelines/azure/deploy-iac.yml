@@ -21,7 +21,7 @@ variables:
 
 
 pool:
-  name: 'Default'
+  vmImage: 'ubuntu-latest'
 
 
 
