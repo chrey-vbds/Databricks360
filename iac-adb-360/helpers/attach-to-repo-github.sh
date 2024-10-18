@@ -41,12 +41,10 @@ if [ "null" == "$creds" ]
         databricks git-credentials create --json '{"personal_access_token": "'$ghpat'", "git_username": "'$ghuser'", "git_provider": "gitHub"}' 
     else
         echo "git credentials found, do nothing"
-        
-
-
 fi
 
 # connect to repo
+echo "connecting repo: $repourl"
 databricks repos create $repourl 'gitHub'
 
 echo 'finished'
