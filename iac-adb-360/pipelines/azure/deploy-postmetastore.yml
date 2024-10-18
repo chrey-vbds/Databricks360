@@ -26,7 +26,7 @@ stages:
   - job: j_assignmetastore
     displayName: 'job assign workspace to metastore'
     pool:
-      name: 'Default'
+      vmImage: 'ubuntu-latest'
     steps:
 
 
@@ -45,7 +45,7 @@ stages:
   - job: j_assignrepo
     displayName: 'Job assign repository to spn'
     pool:
-      name: 'Default'
+      vmImage: 'ubuntu-latest'
     steps:
 
 
@@ -65,7 +65,7 @@ stages:
   - job: j_createcluster
     displayName: 'Job creating the cluster'
     pool:
-      name: 'Default'
+      vmImage: 'ubuntu-latest'
     steps:
 
     - task: AzureCLI@2
