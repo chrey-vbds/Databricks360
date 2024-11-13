@@ -11,25 +11,20 @@
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC dbutils.widgets.text('catalog', 'catadb360dev')
+-- MAGIC dbutils.widgets.text('catalogname', 'catadb360dev')
 -- MAGIC dbutils.widgets.text('dbname', 'golddb')
 
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC catalogname = dbutils.widgets.get('catalog')
+-- MAGIC catalogname = dbutils.widgets.get('catalogname')
 -- MAGIC dbname = dbutils.widgets.get('dbname')
--- MAGIC spark.conf.set('adb360.curcatalog', catalogname)
--- MAGIC spark.conf.set('adb360.curdbname', dbname)
+-- MAGIC
 
 -- COMMAND ----------
 
-use catalog ${adb360.curcatalog}
+use catalog ${catalogname}
 
 -- COMMAND ----------
 
-drop schema if exists ${adb360.curdbname} cascade
-
--- COMMAND ----------
-
-
+drop schema if exists ${dbname} cascade

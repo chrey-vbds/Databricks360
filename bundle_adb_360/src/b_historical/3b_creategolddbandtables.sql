@@ -18,32 +18,31 @@
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC dbutils.widgets.text('catalog', 'catadb360dev')
+-- MAGIC dbutils.widgets.text('catalogname', 'catadb360dev')
 -- MAGIC dbutils.widgets.text('dbname', 'golddb')
 
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC catalogname = dbutils.widgets.get('catalog')
+-- MAGIC catalogname = dbutils.widgets.get('catalogname')
 -- MAGIC dbname = dbutils.widgets.get('dbname')
--- MAGIC spark.conf.set('adb360.curcatalog', catalogname)
--- MAGIC spark.conf.set('adb360.curdbname', dbname)
+-- MAGIC
 
 -- COMMAND ----------
 
-use catalog ${adb360.curcatalog}
+use catalog ${catalogname}
 
 -- COMMAND ----------
 
-create schema if not exists ${adb360.curdbname}
+create schema if not exists ${dbname}
 
 -- COMMAND ----------
 
-use schema ${adb360.curdbname}
+use schema ${dbname}
 
 -- COMMAND ----------
 
-create table if not exists golddb.dimaddress(
+create table if not exists ${dbname}.dimaddress(
     addresskey bigint,
     addressid int,
     State string,
@@ -56,7 +55,7 @@ using delta
 
 -- COMMAND ----------
 
-create table if not exists golddb.dimcustomer (
+create table if not exists ${dbname}.dimcustomer (
     dimcustomerkey bigint,
     customerid int,
     firstName string,
@@ -75,7 +74,7 @@ using delta
 
 -- COMMAND ----------
 
-create table if not exists golddb.dimrestaurant (
+create table if not exists ${dbname}.dimrestaurant (
     restaurantkey bigint,
     restaurantid int,
     restaurantname string,
@@ -89,7 +88,7 @@ using delta
 
 -- COMMAND ----------
 
-create table if not exists golddb.dimfood (
+create table if not exists ${dbname}.dimfood (
     foodkey bigint,
     foodname string,
     cost decimal,
@@ -99,7 +98,7 @@ using delta
 
 -- COMMAND ----------
 
-create table if not exists golddb.factmenues (
+create table if not exists ${dbname}.factmenues (
     fkdate int,
     fkcustomer bigint,
     fkwaiter bigint,
@@ -112,7 +111,7 @@ using delta
 
 -- COMMAND ----------
 
-create table if not exists golddb.watermarktable (
+create table if not exists ${dbname}.watermarktable (
     lastCommitKey bigint,
     lastTimeStamp timestamp,
     tablename string

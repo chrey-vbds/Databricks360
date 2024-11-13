@@ -13,32 +13,31 @@
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC dbutils.widgets.text('catalog', 'catadb360dev')
+-- MAGIC dbutils.widgets.text('catalogname', 'catadb360dev')
 -- MAGIC dbutils.widgets.text('dbname', 'silverdb')
 
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC catalogname = dbutils.widgets.get('catalog')
+-- MAGIC catalogname = dbutils.widgets.get('catalogname')
 -- MAGIC dbname = dbutils.widgets.get('dbname')
--- MAGIC spark.conf.set('adb360.curcatalog', catalogname)
--- MAGIC spark.conf.set('adb360.curdbname', dbname)
+-- MAGIC
 
 -- COMMAND ----------
 
-use catalog ${adb360.curcatalog}
+use catalog ${catalogname}
 
 -- COMMAND ----------
 
-create schema if not exists ${adb360.curdbname}
+create schema if not exists ${dbname}
 
 -- COMMAND ----------
 
-use schema ${adb360.curdbname}
+use schema ${dbname}
 
 -- COMMAND ----------
 
-create table if not exists ${adb360.curdbname}.addresses (
+create table if not exists ${dbname}.addresses (
     addressId int,
     state string,
     streetno int,
@@ -51,7 +50,7 @@ TBLProperties (delta.enableChangeDataFeed = true)
 
 -- COMMAND ----------
 
-create table if not exists ${adb360.curdbname}.customers (
+create table if not exists ${dbname}.customers (
     customerid int,
     firstName string,
     lastName string,
@@ -67,7 +66,7 @@ TBLProperties (delta.enableChangeDataFeed = true)
 
 -- COMMAND ----------
 
-create table if not exists  ${adb360.curdbname}.menuesconsumed (
+create table if not exists  ${dbname}.menuesconsumed (
     menueId int,
     foodName string,
     foodCategory string,
@@ -83,7 +82,7 @@ TBLProperties (delta.enableChangeDataFeed = true)
 
 -- COMMAND ----------
 
-create table if not exists ${adb360.curdbname}.restaurants (
+create table if not exists ${dbname}.restaurants (
     restaurantId int,
     restaurantName string,
     noOfTables int,
