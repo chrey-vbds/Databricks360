@@ -18,7 +18,7 @@
 
 -- MAGIC %python
 -- MAGIC storageaccountname = dbutils.widgets.get('storageaccountname')
--- MAGIC spark.conf.set('adb360.storageaccountname', storageaccountname)
+-- MAGIC
 
 -- COMMAND ----------
 
@@ -43,7 +43,7 @@ use schema schemaadb360dev
 -- COMMAND ----------
 
 create external volume if not exists bronze
-location 'abfss://bronze@${adb360.storageaccountname}.dfs.core.windows.net/' 
+location 'abfss://bronze@${storageaccountname}.dfs.core.windows.net/' 
 
 -- COMMAND ----------
 
