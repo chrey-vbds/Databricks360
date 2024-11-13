@@ -31,7 +31,3 @@ bronzePath = f'/Volumes/{catalog}/{schema}/{volume}/incremental/'
 # COMMAND ----------
 
 dbutils.fs.rm(bronzePath, True)
-
-# COMMAND ----------
-
-
