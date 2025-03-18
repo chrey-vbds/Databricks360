@@ -7,7 +7,7 @@ include:
   - resources/*.yml
 
 run_as:
-  service_principal_name: 1f75dd16-f271-4248-ae35-993e70abe5a8
+  service_principal_name: 961e9a6a-cf7d-4022-ba3d-9596b6b71290
 
 
 variables:
@@ -16,16 +16,16 @@ variables:
     default: chrey@microsoft.com
   devworkspace:
     description: workspace url for dev
-    default: https://adb-3062210738373197.17.azuredatabricks.net
+    default: https://adb-2767823278618187.7.azuredatabricks.net/
   prdworkspace:
     description: workspace url for prod
-    default: https://adb-3062210738373197.17.azuredatabricks.net/
+    default: https://adb-2767823278618187.7.azuredatabricks.net/
   username:
     description: adb360-sp uid
-    default: 1f75dd16-f271-4248-ae35-993e70abe5a8
+    default: 961e9a6a-cf7d-4022-ba3d-9596b6b71290
   bronzestorageaccountname:
     description: the storage account name for bronze
-    default: dlg2westus3adb360061bjpy
+    default: dlg2devwestus2adb3606jxf
   catalogname:
     description: the catalog to use
     default: catadb360dev
@@ -37,13 +37,13 @@ targets:
   # The 'dev' target, for development purposes. This target is the default.
   dev:
     variables:
-      bronzestorageaccountname: dlg2westus3adb360061bjpy
+      bronzestorageaccountname: dlg2devwestus2adb3606jxf
 
       
     mode: development
     default: true
     workspace:
-      host: https://adb-3062210738373197.17.azuredatabricks.net/
+      host: https://adb-2767823278618187.7.azuredatabricks.net/
 
     run_as:
       service_principal_name: ${var.username}
@@ -61,11 +61,11 @@ targets:
     variables:
       catalogname: catadb360prd
       schemaname: schemaadb360prd
-      bronzestorageaccountname: dlg2westus3adb360061bjpy
+      bronzestorageaccountname: dlg2devwestus2adb3606jxf
       
     mode: production
     workspace:
-      host: https://adb-3062210738373197.17.azuredatabricks.net/
+      host: https://adb-2767823278618187.7.azuredatabricks.net/
       # We always use /Users/chris@mngenv289593.onmicrosoft.com for all resources to make sure we only have a single copy.
       # If this path results in an error, please make sure you have a recent version of the CLI installed.
       root_path: /Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
