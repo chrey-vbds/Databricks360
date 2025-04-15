@@ -23,5 +23,33 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: echosecret
-        run: echo ${{ vars.BASE_NAME }}
+
+
+      - name: Install Bicep CLI
+        run: |
+          curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+          chmod +x ./bicep
+          sudo mv ./bicep /usr/local/bin/bicep
+
+      - name: Validate Bicep Syntax
+        run: bicep build ./iac-adb-360/main.bicep
+
+  validate-bicep:
+    name: Validate Bicep Against Azure
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Validate Bicep Template
+        run: |
+          az deployment group validate \
+            --resource-group $RESOURCE_GROUP \
+            --template-file ./iac-adb-360/main.bicep \
+            --parameters baseName=$BASE_NAME env=$ENV
