@@ -17,7 +17,7 @@ jobs:
   check-bicep:
     name: Check Bicep Syntax
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name }}
+    environment: 'dev'
 
     steps:
       - name: Checkout Code
