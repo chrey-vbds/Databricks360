@@ -50,6 +50,6 @@ jobs:
       - name: Validate Bicep Template
         run: |
           az deployment group validate \
-            --resource-group $RESOURCE_GROUP \
+            --resource-group ${{ vars.RESOURCE_GROUP }}\
             --template-file ./iac-adb-360/main.bicep \
-            --parameters baseName=$BASE_NAME env=$ENV
+            --parameters baseName=${{ vars.BASE_NAME }} env=${{ github.ref_name }}
