@@ -36,6 +36,7 @@ jobs:
 
   validate-bicep:
     name: Validate Bicep Against Azure
+    needs: check-bicep
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
     steps:
