@@ -22,6 +22,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+    
+      - name: Install Azure CLI
+        run: |
+         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+         az version
+
+
       - name: Install Databricks CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
@@ -31,43 +38,11 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Assign Workspace to Repo
-        uses: azure/cli@v2
-        with:
-          script-type: 'bash'
-          script-location: 'scriptPath'
-          script-path: './iac-adb-360/helpers/attach-to-repo-github.sh'
-          arguments: |
-            ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.REPO_URL }} ${{ vars.GH_USER }} ${{ secrets.GH_PAT }}
+      - name: make the scrtip executable
+        run: chmod +x ./iac-adb-360/helpers/attach-to-repo-github.sh
+
+
+      - name: assigen repo to SPN
+        run: ./iac-adb-360/helpers/attach-to-repo-github.sh ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.REPO_URL }} ${{ vars.GH_USER }} ${{ secrets.GH_PAT }}
 
   
-  create-catalog-and-schema:
-    name: Create Catalog and Schema
-    runs-on: ubuntu-latest
-    environment: ${{ github.ref_name }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install Databricks CLI
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
-
-      - name: Create Catalog and Schema
-        uses: azure/cli@v2
-        with:
-          script-type: 'bash'
-          script-location: 'scriptPath'
-          script-path: './iac-adb-360/helpers/create-ms-catalognschema-sepstor.sh'
-          arguments: |
-            ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.METASTORE_NAME }} ${{ env.ENV }} ${{ vars.CATALOG_STORAGE_ACCOUNT_NAME }} ${{ vars.CRED_NAME }} ${{ vars.ACCESS_CONNECTOR_ID }}
-
-      - name: Create External Location
-        uses: azure/cli@v2
-        with:
-          script-type: 'bash'
-          script-location: 'scriptPath'
-          script-path: './iac-adb-360/helpers/create-ms-externallocation.sh'
-          arguments: |
-            ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.METASTORE_NAME }} ${{ env.ENV }} ${{ vars.BRONZE_STORAGE_ACCOUNT_NAME }} ${{ vars.CRED_NAME }} ${{ vars.ACCESS_CONNECTOR_ID }}
