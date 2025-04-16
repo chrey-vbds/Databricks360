@@ -6,11 +6,10 @@ on:
       - dev
     paths:
       - '**'
-  workflow_dispatch: 
+  workflow_dispatch: # Allows manual triggering of the workflow
 
 env:
-    ENV: ${{ github.ref_name }}
-
+  ENV: ${{ github.ref_name }}
 
 jobs:
   assign-repo:
@@ -22,12 +21,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-    
-      - name: Install Azure CLI
-        run: |
-         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-         az version
-
+      - name: Install Azure CLI
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          az version
 
       - name: Install Databricks CLI
         run: |
@@ -38,11 +35,10 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: make the scrtip executable
+      - name: Make the script executable
         run: chmod +x ./iac-adb-360/helpers/attach-to-repo-github.sh
 
-
-      - name: assigen repo to SPN
+      - name: Assign repo to SPN
         run: ./iac-adb-360/helpers/attach-to-repo-github.sh ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.REPO_URL }} ${{ vars.GH_USER }} ${{ secrets.GH_PAT }}
 
-  
+
