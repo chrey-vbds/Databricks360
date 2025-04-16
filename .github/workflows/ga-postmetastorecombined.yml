@@ -3,7 +3,7 @@ name: PostMetastoreCombinedDeploy
 on:
   push:
     branches:
-      - dev
+      - devy
     paths:
       - '**'
   workflow_dispatch: 
@@ -32,7 +32,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Assign Workspace to Repo
-        uses: azure/cli@2
+        uses: azure/cli@v2
         with:
           script-type: 'bash'
           script-location: 'scriptPath'
@@ -55,7 +55,7 @@ jobs:
           curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
       - name: Create Catalog and Schema
-        uses: azure/cli@2
+        uses: azure/cli@v2
         with:
           script-type: 'bash'
           script-location: 'scriptPath'
@@ -64,7 +64,7 @@ jobs:
             ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.METASTORE_NAME }} ${{ env.ENV }} ${{ vars.CATALOG_STORAGE_ACCOUNT_NAME }} ${{ vars.CRED_NAME }} ${{ vars.ACCESS_CONNECTOR_ID }}
 
       - name: Create External Location
-        uses: azure/cli@2
+        uses: azure/cli@v2
         with:
           script-type: 'bash'
           script-location: 'scriptPath'
