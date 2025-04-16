@@ -3,7 +3,7 @@ name: PostMetastoreCombinedDeploy
 on:
   push:
     branches:
-      - devy
+      - dev
     paths:
       - '**'
   workflow_dispatch: 
@@ -45,7 +45,7 @@ jobs:
     name: Create Catalog and Schema
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
