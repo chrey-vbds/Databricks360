@@ -8,9 +8,9 @@ param lawid string
 var locationShortName = toLower(replace(replace(replace(replace(location, 'westus3', 'wus3'), 'westus2', 'wus2'), 'eastus', 'eus'), 'northcentralus', 'ncus'))
 
 var tempdlgname = 'dlg2${env}${locationShortName}${baseName}'
-var curatedDlgName = substring('${substring(tempdlgname, 0, 20)}${uniqueString(tempdlgname)}', 0, 24)
-var tempmetastorename = 'dlg2metastore${env}${locationShortName}${baseName}'
-var curatedMetaStorename = substring('${substring(tempmetastorename, 0, 20)}${uniqueString(tempmetastorename)}', 0, 24)
+var curatedDlgName = substring('${tempdlgname}${uniqueString(tempdlgname)}', 0, 24)
+var tempmetastorename = 'dlg2meta${env}${locationShortName}${baseName}'
+var curatedMetaStorename = substring('${tempmetastorename}${uniqueString(tempmetastorename)}', 0, 24)
 var storageblobdatacontributordefid = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 
 resource dlg2 'Microsoft.Storage/storageAccounts@2022-09-01'={
