@@ -3,7 +3,7 @@ name: Deploy-IAC
 on:
   push:
     branches:
-      - dev
+      - devy
     paths-ignore:
       - '*'
   pull_request:

@@ -8,6 +8,8 @@ on:
       - '**'
   workflow_dispatch: 
 
+env:
+    ENV: ${{ github.ref_name }}
 
 
 jobs:
@@ -39,3 +41,33 @@ jobs:
             ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.REPO_URL }} ${{ vars.GH_USER }} ${{ secrets.GH_PAT }}
 
   
+  create-catalog-and-schema:
+    name: Create Catalog and Schema
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Create Catalog and Schema
+        uses: azure/CLI@2
+        with:
+          script-type: 'bash'
+          script-location: 'scriptPath'
+          script-path: './iac-adb-360/helpers/create-ms-catalognschema-sepstor.sh'
+          arguments: |
+            ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.METASTORE_NAME }} ${{ env.ENV }} ${{ vars.CATALOG_STORAGE_ACCOUNT_NAME }} ${{ vars.CRED_NAME }} ${{ vars.ACCESS_CONNECTOR_ID }}
+
+      - name: Create External Location
+        uses: azure/CLI@2
+        with:
+          script-type: 'bash'
+          script-location: 'scriptPath'
+          script-path: './iac-adb-360/helpers/create-ms-externallocation.sh'
+          arguments: |
+            ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.METASTORE_NAME }} ${{ env.ENV }} ${{ vars.BRONZE_STORAGE_ACCOUNT_NAME }} ${{ vars.CRED_NAME }} ${{ vars.ACCESS_CONNECTOR_ID }}
