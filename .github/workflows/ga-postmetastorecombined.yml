@@ -1,0 +1,41 @@
+name: PostMetastoreCombinedDeploy
+
+on:
+  push:
+    branches:
+      - devy
+    paths:
+      - '**'
+  workflow_dispatch: 
+
+
+
+jobs:
+  assign-repo:
+    name: Assign Repository to SPN
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Assign Workspace to Repo
+        uses: azure/CLI@2
+        with:
+          script-type: 'bash'
+          script-location: 'scriptPath'
+          script-path: './iac-adb-360/helpers/attach-to-repo-github.sh'
+          arguments: |
+            ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.REPO_URL }} ${{ vars.GH_USER }} ${{ secrets.GH_PAT }}
+
+  
