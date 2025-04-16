@@ -3,7 +3,7 @@ name: PostMetastoreCombinedDeploy
 on:
   push:
     branches:
-      - devy
+      - dev
     paths:
       - '**'
   workflow_dispatch: 
