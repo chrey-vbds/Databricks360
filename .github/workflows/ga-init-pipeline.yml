@@ -37,19 +37,14 @@ jobs:
             
             
       - name: Validate Bundle
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            cd bundle_adb_360
-            databricks bundle validate
+        run: |
+          cd bundle_adb_360
+          databricks bundle validate
 
+        
       - name: Deploy Bundle
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            ./bundle_adb_360/helpers/bundle-deploy.sh ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ env.ENV }}
-
+        run: |
+          cd bundle_adb_360
+          databricks bundle deploy --no-prompt --overwrite
 
 
