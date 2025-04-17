@@ -45,6 +45,6 @@ jobs:
       - name: Deploy Bundle
         run: |
           cd bundle_adb_360
-          databricks bundle deploy --no-prompt --overwrite
+          databricks bundle deploy 
 
 
