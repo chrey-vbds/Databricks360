@@ -16,17 +16,48 @@ The scripts have been and are being developed on a Windows 11 workstation with W
 These are the steps to install the VM:
 > Note: not all steps are necessary, depending on your environment.
 1. Create a Resource Group
-2. Create a VNet with at least one subnet and a subnet mask /27, which can host up to 27-5=22 ip addresses.
+2. You can either use the default setttings during installation for the network or create a VNet with at least one subnet and a subnet mask /27, which can host up to 27-5=22 ip addresses.
 3. Create a virtual machine with Ubuntu 22.04 or 24.04 and put it into this subnet and add a public interface. Use a key file (more secure) and use JITA (just in time access)
 4. Install the following on the VM
-    - Install Azure CLI
-    - Install Bicep to Azure CLI
-    - Install Databricks CLI > 0.230
-    - Install Code CLI
-    - create a key in github to connect your vm to it
-        - create a new key
-5. Create a code tunnel on your VM and connect vscode.dev to it
+    - Install Azure CLI : 
+    ```bash
+      curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    ```
 
+    - Install Bicep to Azure CLI : 
+    ```bash
+      az bicep install
+    ```
+    - Install Databricks CLI > 0.230 : 
+    ```bash
+      curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sudo sh
+    ```
+    - Install Code CLI : 
+    ```bash
+      sudo snap install --classic code
+    ```
+
+5. Create a code tunnel on your VM and connect vscode.dev to it
+    - create a tunnel on your vm
+    ```bash
+      code tunnel
+    ```
+    this is going to start the vscode server and create a tunnel. At the end, there's going to be a url output, which you copy and use to connect vscode.dev to it.
+    
+    - copy the url into your browser. You'll be prompted to log in to Github. Once yo're logged in, you can access your remote machine directly from vscode.dev
+
+6. To connect our new VM to github. We create a ed25519 key
+    ```bash
+      ssh-keygen -t ed25519 -C "your email"
+    ```
+    - add it to the ssh agent
+    ```bash
+      eval "$(ssh-agent -s)"
+      ssh-add ~/.ssh/id_ed25519
+    ```
+    - and add the public key to your Github organization (settings)
+
+    <br/>
 
 Now you're ready for the next step...
 <br/>
@@ -39,11 +70,11 @@ Now you're ready for the next step...
 
 
 
-# 1. Standard Installation (no SCC)
+# 1. Default Installation (no SCC)
 
 ## Installation with Azure Devops (ADO) - DEV Environment
 
-There is going to be some prep work to be done:
+A default installation of Databricks uses public ip addresses. If you don't want public ip addresses, you'll have to either do a simplified or a standard secure cluster connectivity(SCC) installation. The standard secure cluster configuration (SCC) is supported and described [here](/iac-adb-360/README.md#2-scc-secure-cluster-connectivity-installation).
 
 Firstly, you need to fork <sup>1</sup> this repository (github.com/Azure/Databricks360) into your github organization and if you want to be able to make changes to the code, then clone <sup>2</sup> the repo locally. Change to the newly created directory, which should be something like /Databricks360. If you forked from the main branch, create a dev branch either in Github or by entering 'git checkout -b dev' at the command line. This will create a dev branch from main and check it out. By entering git push --set-updstream origin/dev you push the newly created branch onto github. It is also a good practice to set the dev branch as the default one, so that subsequent creations of new pipelines draw from dev by default.
 
@@ -81,10 +112,10 @@ Thirdly, we need a project in ADO (Azure DevOps) to host the deployment pipeline
 flowchart TD
 Start --> 1-ResourceGroups
 style Start fill:red,stroke:blue,stroke-width:3px,shadow:shadow
-1-ResourceGroups --> 2-IACPipeline
+1-ResourceGroups --> 2-IaCPipeline
 style 1-ResourceGroups fill:darkgray,stroke:blue,stroke-witdth:3px,shadow:shadow,color:#0000aa
 2-IaCPipeline --> Metastore
-style 2-IACPipeline fill:darkgray,stroke:blue,stroke-witdth:3px,shadow:shadow,color:#0000aa
+style 2-IaCPipeline fill:darkgray,stroke:blue,stroke-witdth:3px,shadow:shadow,color:#0000aa
 Metastore --> 3-Post-Metastore-Combined
 style Metastore fill:lightgreen,stroke:blue,stroke-witdth:3px,shadow:shadow,color:#0000aa
 3-Post-Metastore-Combined --> End
@@ -199,25 +230,23 @@ and here goes:
 
 3.1.4. **clientsecret** - secret of app id to interact with Databricks workspace (configured as secret)
 
-3.1.5 **clusterconf** - the name of the file, without extension yml, which defines the cluster being created. this file is found under helpers. p.ex. sharedcluster. Don't forget to adjust the clustername in this file.
+3.1.5 **metastorename** - the name of the metastore
 
-3.1.6 **metastorename** - the name of the metastore
+3.1.6 **repourl** - the url to the content repo, which should be attached. Something like https://github.com/<orgname>/Databricks360.git
 
-3.1.7 **repourl** - the url to the content repo, which should be attached. Something like https://github.com/<orgname>/Databricks360.git
+3.1.7 **credname** - the credential name for the storage credential for bronze. Thats just a name p.ex. devcreds. This is going to be the storage credential, which is pointing to the accessconnector id in the resource group both for the bronze storage account as well as the <env>catalog account.
 
-3.1.8 **credname** - the credential name for the storage credential for bronze. Thats just a name p.ex. devcreds. This is going to be the storage credential, which is pointing to the accessconnector id in the resource group both for the bronze storage account as well as the <env>catalog account.
+3.1.8 **env** - the environment we're in. (dev, uat, prd etc.)
 
-3.1.9 **env** - the environment we're in. (dev, uat, prd etc.)
+3.1.9 **bronzestorageaccountname** - the storage account name for the bronze files
 
-3.1.10 **bronzestorageaccountname** - the storage account name for the bronze files
+3.1.10 **catalogstorageaccountname** - the storage account name for the catalog for this environment.
 
-3.1.11 **catalogstorageaccountname** - the storage account name for the catalog for this environment.
+3.1.11 **accessconnectorid**  - the resource id of the access connector id to be used for access to catalog and bronze files storage accounts
 
-3.1.12 **accessconnectorid**  - the resource id of the access connector id to be used for access to catalog and bronze files storage accounts
+3.1.12 **ghuser** - the git user name used
 
-3.1.13 **ghuser** - the git user name used
-
-3.1.14 **ghpat** - the personal access token used to access git
+3.1.13 **ghpat** - the personal access token used to access git
 
 3.2. create a pipeline from /pipelines/azure/deploy-postmetastore.yml 
 
@@ -282,8 +311,8 @@ That should be it for the production environment infrastructure and you can proc
 
 # 2. SCC (Secure Cluster Connectivity) Installation
 
-In 1, you learned how to install an Azure Databricks workspace etc. the standard way. This 'standard' way has the disadvantage of being less safe as it uses public ip addresses. This is not a problem per se, but in the context of threat modeling exposes risks, since a public network interface is potentially visible from the internet and thus attackable.
-In order to avoid any public interface, there is a NPIP or No Public IP Address configuration or in short secure cluster connectivity (SCC). Within SCC, there's the simplified and standard installation. The difference between these two is, that the standard adds a transit network to separate compute plane traffic from user traffic. This part 2 explains how to do a standard SCC installation with the transit network, as described [here](https://learn.microsoft.com/en-us/azure/databricks/security/network/classic/private-link-standard).
+In 1, you learned how to install an Azure Databricks workspace etc. the default way. This 'default' way has the disadvantage of being less safe as it uses public ip addresses. This is not a problem per se, but in the context of threat modeling, this exposes risks, since a public network interface is potentially visible from the internet and thus attackable.
+In order to avoid any public interface, there is a NPIP or No Public IP Address configuration or in short secure cluster connectivity (SCC). Within SCC, there's the simplified and standard installation. The difference between these two is, that the standard adds a transit network to separate compute plane traffic from user traffic into different vnets. This part 2 explains how to do a standard SCC installation with the transit network, as described [here](https://learn.microsoft.com/en-us/azure/databricks/security/network/classic/private-link-standard).
 
 ## Installation via ADO (Azure DevOps) - Dev Environment
 
@@ -293,11 +322,18 @@ Then this time we're going to create three Resource groups
 * one for the virtual network for the transit network, which is used for the users to be able to access the compute plane
 * and one for the resources like Azure Databricks workspace, storage accounts etc.
 
+The reason behind creating three Resource Groups, is 
+* to separate the network configuration from the other solution artifacts. More often than not, network installation and configuration is done by a different team or department within the organization and with this separation we support this scenario. You'd only need to omit the networking installation in the bicep script.
+* by adding two different vnets, we can have different dns name resolutions for the compute plane and for the transit network. Usually in the compute plane, you can use the Azure resolver, whereas in the transit network usually users from the organization are connecting and therefore on prem dns might be used.
+<br/>
+<br/>
+
+
 ### 2.1.1 Installation of Resource groups
 
 The script, which does that for us is in ./helpers/rg-create-scc-std.sh. And like in part 1, before running this script, you'll have to adjust a few variables according to your environment. So open the file rg-create-scc-std.sh in an editor and adjust:
 
-2.1.1.1 **soluctionname** : a name, which qualifies the solution, here adbsccstd. Adjust it to your liking. This name is added to all artifacts like storage account names, Databricks workspace etc. for uniqueness reasons.
+2.1.1.1 **solutionname** : a name, which qualifies the solution, here adbsccstd. Adjust it to your liking. This name is added to all artifacts like storage account names, Databricks workspace etc. for uniqueness reasons.
 
 2.1.1.2 **location** : in which region to install to here westus2. 
 
@@ -314,15 +350,29 @@ The script, which does that for us is in ./helpers/rg-create-scc-std.sh. And lik
 
 ### 2.2.1 Installation of ADO pipeline to install the vnets, workspace, storage accounts etc.
 
-First, similar as in part 1, we have to adjust the configdev-scc.yml found in iac-adb-360/pipelines/azure/ as follows:
+First, similar as in part 1, we have to create a variable group in azure devops library called vgadb360sccdev with the following values:
 
-2.2.1.1 **basename** : use the same as in the resource group creating script for solutionname p.ex. adbsccstdmmdd
+2.2.1.1 **basename** : use the same as in the resource group creating script for solutionname p.ex. adbsccstdmmdd. Make sure to add the month date information of the newly created Resource Groups.
 
-> All the other variables are derived from this basename. Remember to make it unique for your installation and keep it short.
+2.2.1.2 **pw** : the password for the virtual machines being created
+
+2.2.1.3 **env** : name the environment here dev. marked as secret (click lock)
+
+2.2.1.4 **location**: location/region where to deploy to. 
+
+2.2.1.5 **resourcegroup** : name of the resource group
+
+2.2.1.6 **vnetresourcegroup** : name for resource group with vnets
+
+2.2.1.7 **transitresourcegroup** : name of the resource group with transit artifacts
+
+2.2.1.8 **vnetname** : the name of the Databricks vnet
+
+
 
 2.2.2 Create the pipeline in ADO from /iac-adb-360/pipelines/azure/deploy-iac-scc.yml and run it
 
-You should get the following in the resource groups:
+You should get something similar to the following artifacts created in the resource groups (the date portion might differ):
 
 * rg-\<loc\>-\<solutionname>-dev
 ![rgmain](/imagery/scc-rgmain.png)
