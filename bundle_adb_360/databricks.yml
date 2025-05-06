@@ -13,7 +13,7 @@ run_as:
 variables:
   emailrecipient: 
     description: email address of the recipient of failure notifications
-    default: chrey@microsoft.com
+    default: test@test.com
   devworkspace:
     description: workspace url for dev
     default: https://adb-2154722801623435.15.azuredatabricks.net/
