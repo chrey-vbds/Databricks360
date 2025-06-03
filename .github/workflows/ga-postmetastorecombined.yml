@@ -70,7 +70,18 @@ jobs:
         run: chmod +x ./iac-adb-360/helpers/create-ms-catalognschema-sepstor.sh
 
       - name: create catalog and schema
-        run: ./iac-adb-360/helpers/create-ms-catalognschema-sepstor.sh ${{ vars.RESOURCE_GROUP }} ${{ vars.TENANT_ID }} ${{ vars.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ vars.METASTORE_NAME }} ${{ vars.ENV }} ${{ vars.CATALOG_STORAGE_ACCOUNT_NAME }} ${{ vars.CRED_NAME }} ${{ vars.ACCESS_CONNECTOR_ID }}
+        run: |
+          ./iac-adb-360/helpers/create-ms-catalognschema-sepstor.sh $RG $TID $CID $CS $MSN $ENV $CSAN $CN $ACI
+        env:
+          RG: ${{ vars.RESOURCE_GROUP }} 
+          TID: ${{ vars.TENANT_ID }} 
+          CID: ${{ vars.CLIENT_ID }} 
+          CS: ${{ secrets.CLIENT_SECRET }} 
+          MSN: ${{ vars.METASTORE_NAME }} 
+          ENV: ${{ vars.ENV }} 
+          CSAN: ${{ vars.CATALOG_STORAGE_ACCOUNT_NAME }} 
+          CN: ${{ vars.CRED_NAME }} 
+          ACI: ${{ vars.ACCESS_CONNECTOR_ID }}
       
       - name: Make the script executable
         run: chmod +x ./iac-adb-360/helpers/create-ms-externallocation.sh
