@@ -5,7 +5,7 @@ param uamipid string
 param lawid string
 
 var tempdlgname = 'dlg2${env}${location}${baseName}'
-var curatedDlgName = substring('${substring(tempdlgname, 0, 20)}${uniqueString(tempdlgname)}', 0, 24)
+var curatedDlgName = substring('${substring(tempdlgname, 0, 20)}y${uniqueString(tempdlgname)}', 0, 24)
 var tempmetastorename = 'dlg2metastore${env}${location}${baseName}'
 var curatedMetaStorename = substring('${substring(tempmetastorename, 0, 20)}${uniqueString(tempmetastorename)}', 0, 24)
 var storageblobdatacontributordefid = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
