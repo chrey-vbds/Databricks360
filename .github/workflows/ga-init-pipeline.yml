@@ -3,7 +3,7 @@ name: InitBundlePipeline
 on:
   push:
     branches:
-      - dev
+      - devy
     paths:
       - '**'
   workflow_dispatch: # Allows manual triggering of the workflow
