@@ -56,15 +56,15 @@
             "cwd": "${workspaceFolder}",
             "program": "iac-adb-360/helpers/create-ms-catalognschema-sepstor.sh",
             "args": [
-                "rg-wus2-adb3600501-dev",
-                "12ce7121-18c7-4841-98f9-3b26fc8af34f",
-                "ee429c67-2078-47b5-8bcb-b4c66b02bb24", // appid
+                "rg-wus2-adb3600603-dev",
+                "9f7fc58b-f17a-4fca-8f96-22df0c838006",
+                "caf6bcdb-6956-4159-821f-5a7978260b80", // appid
                 "", // clientsecret
-                "metawus2", //metastorename
+                "metastore_azure_westus2", //metastorename
                 "dev", //env
-                "dlg2metastoredevwestiprn", //storage account for catalog
-                "catdevcred", //credential name for catalog
-                "/subscriptions/3d11a8f9-16c2-438e-bbed-3b23505340ec/resourceGroups/rg-wus2-adb3600501-dev/providers/Microsoft.Databricks/accessConnectors/adbac-wus2-adb3600501-dev" //access connector id
+                "dlg2ymetastoredevwesxiuv", //storage account for catalog
+                "devcreds", //credential name for catalog
+                "/subscriptions/528b1969-143c-4465-8632-9739ecd11ded/resourceGroups/rg-wus2-adb3600603-dev/providers/Microsoft.Databricks/accessConnectors/adbac-wus2-adb360-dev" //access connector id
             ]
         },
         {
