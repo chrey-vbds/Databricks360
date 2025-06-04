@@ -1,0 +1,14 @@
+name: Print Dev Environment Variables
+
+on:
+  workflow_dispatch:
+    # Allows manual triggering of the workflow
+
+jobs:
+  print-dev-env-vars:
+    name: Print Dev Environment Variables
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Print all environment variables
+        run: printenv | sort
