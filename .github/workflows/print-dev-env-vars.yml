@@ -13,7 +13,23 @@ jobs:
       - name: Print GitHub environment variables for dev
         run: |
           echo  "$CI"
+          echo "$RG"
+          echo "$TID"
+          echo "$CS"
+          echo "$MS"
+          echo "$CSAN"
+          echo "$CN"
+          echo "$ACID"
+          echo "$EN"
         env:
             CI: ${{ vars.CLIENT_ID }}
+            RG: ${{ vars.RESOURCE_GROUP }} 
+            TID: ${{ vars.TENANT_ID }} 
+            CS: ${{ secrets.CLIENT_SECRET }} 
+            MS: ${{ vars.METASTORE_NAME }} 
+            CSAN: ${{ vars.CATALOG_STORAGE_ACCOUNT_NAME}} 
+            CN: ${{ vars.CRED_NAME }} 
+            ACID: ${{ vars.ACCESS_CONNECTOR_ID }} 
+            EN: ${{ vars.ENV }} 
 
 
