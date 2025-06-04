@@ -10,5 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     steps:
-      - name: Print all environment variables
-        run: printenv | sort
+      - name: Print GitHub environment variables for dev
+        run: |
+          echo "GitHub environment variables for 'dev':"
+          printenv | grep '^VAR_' | sort
+          echo "\nAll GitHub Actions environment variables (for debugging):"
+          printenv | grep -E '^(GITHUB_|DEV_|ENV_|VAR_)' | sort
