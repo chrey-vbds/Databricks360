@@ -12,5 +12,5 @@ jobs:
     steps:
       - name: Print GitHub environment variables for dev
         run: |
-          echo  "{{ vars.CLIENT_ID }}"
+          echo  "$CLIENT_ID"
 
